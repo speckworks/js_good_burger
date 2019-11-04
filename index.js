@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
-  //for X event Y Fetch the Burgers
+  //*********************************************************************** 
+  // Y Fetch the Burgers
   function grabBurgers(){
     return fetch("http://localhost:3000/burgers")
       .then(result => result.json())    
     }
+    //********************************************************************
    //render burgers and Slap them on the DOM
     function renderBurgers(burger){
     let burgerMenu = document.getElementById('burger-menu') 
@@ -18,39 +19,29 @@ document.addEventListener("DOMContentLoaded", () => {
     burgerTitle.innerText = burger.name
     burgerTitle.append(burgerImage)
     burgerImage.src = burger.image
-    //empty p tag should be working for innerText assignment of Burger Description
+    burgerDescPTag.innerHTML = burger.description
     burgerDiv.append(burgerDescPTag)
-    burgerDescPTag.innertext += burger.description
-    //***************************************************
+    console.log(burgerDescPTag.innertext)
+    //*********************************************************************
     //for X Event, Y fetch, Z slap add Burger to order list On DOM
     burgerDiv.append(addToOrder)
-    addToOrder.innerHTML = `<button class="button" width="100px">Add to Order</button>`
+    addToOrder.innerHTML = `<button>Add to Order</button>`
     addToOrder.addEventListener('click', function addBurgerToOrder(){
-        orderList = document.getElementById('order-list')
-    orderList.append(    burger.name     )
+        orderListUl = document.getElementById('order-list')
+        newBurgerLi = document.createElement('li')
+        newBurgerLi.innerText = burger.name
+        orderListUl.append(newBurgerLi)
       })
     }
-      //Eric's Quick and Dirty
-      //  let burgerArray = burger
-      // burgerDiv.innerHTML += 
-      // <h3 class="burger_title">`${burger.name}</h3>
-      // <img src="`${burger.image}`">
-      // <p class= "burger_description">
-      //   ${burger.description}
-      // </p>
-      // <button class="button">Add to Order</button>
-    //grab burger Array of Objects, iterate over them and spit out single burgers
     
-    // create a custom burger and add it to the database
     let customBurgerForm = document.getElementById('custom-burger')
-
-
+    //*********************************************************************
+    // X event, Y create burger, persist it in the database, and Z slap it on the DOM
     customBurgerForm.addEventListener('submit', (event) =>{
       event.preventDefault();
       let newBurgerName = event.target.name.value
       let newBurgerDescription = event.target.description.value
       let newBurgerImg = event.target.url.value
-    // debugger
         fetch('http://localhost:3000/burgers', {
           method: 'POST',
           headers: {
@@ -68,23 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
           renderBurgers(burger);
         })
     })
-      
+
     grabBurgers().then(burgers => {
     burgers.forEach(renderBurgers)
    })
-  })
+ 
+})
    
 
 
-
-
-
-  //Z put the Burgers on the DOM
-  
-
-//console.log(grabDeBurgers)
-
-//create div.order
 
 
 
